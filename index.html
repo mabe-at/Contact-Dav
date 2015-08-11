@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<title>Contact Dav</title>
+		<!-- Building blocks -->
+		<link rel="stylesheet" href="assets/buildingblocks/style/action_menu.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/buttons.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/confirm.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/edit_mode.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/headers.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/input_areas.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/status.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/switches.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/drawer.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/lists.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/layout.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/progress_activity.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/scrolling.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/seekbars.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/tabs.css">
+		<link rel="stylesheet" href="assets/buildingblocks/style/toolbars.css">
+		
+		<!-- Icons -->
+		<link rel="stylesheet" href="assets/buildingblocks/icons/styles/action_icons.css">
+		<link rel="stylesheet" href="assets/buildingblocks/icons/styles/media_icons.css">
+		<link rel="stylesheet" href="assets/buildingblocks/icons/styles/comms_icons.css">
+		<link rel="stylesheet" href="assets/buildingblocks/icons/styles/settings_icons.css">
+		
+		<!-- Transitions -->
+		<link rel="stylesheet" href="assets/buildingblocks/transitions.css">
+		
+		<!-- Util CSS: some extra tricks -->
+		<link rel="stylesheet" href="assets/buildingblocks/util.css">
+		
+		<link rel="stylesheet" href="assets/css/app.css">
+		
+		<style>
+			#index {
+				height: 100%;
+			}
+			[data-position="right"] {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				transform: translateX(100%);
+				-webkit-transform: translateX(100%);
+				z-index: 15;
+				z-index: 100; /* -> drawer */
+			}
+			
+			section[role="region"][data-position="right"] {
+				position: absolute;
+			}
+			
+			[data-position="right"].current {
+				animation: rightToCurrent 0.4s forwards;
+				-webkit-animation: rightToCurrent 0.4s forwards;
+			}
+			[data-position="right"].right {
+				animation: currentToRight 0.4s forwards;
+				-webkit-animation: currentToRight 0.4s forwards;
+			}
+			[data-position="current"].left {
+				animation: currentToLeft 0.4s forwards;
+				-webkit-animation: currentToLeft 0.4s forwards;
+			}
+			[data-position="current"].current {
+				animation: leftToCurrent 0.4s forwards;
+				-webkit-animation: leftToCurrent 0.4s forwards;
+			}
+			[data-position="back"] {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: -1;
+				opacity: 0;
+				/* z-index: 100; -> drawer */
+			}
+			[data-position="back"].fade-in {
+				z-index: 120;
+				animation: fadeIn 0.2s forwards;
+				-webkit-animation: fadeIn 0.2s forwards;
+			}
+			[data-position="back"].fade-out {
+				animation: fadeOut 0.2s forwards;
+				-webkit-animation: fadeOut 0.2s forwards;
+			}
+			
+			[data-position="edit-mode"] {
+				position: absolute;
+				top: -5rem;
+				left: 0;
+				right: 0;
+				bottom: -7rem;
+				z-index: -1;
+				opacity: 0;
+				transition: all 0.3s ease;
+			}
+			[data-position="edit-mode"].edit {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 120;
+				opacity: 1;
+			}
+			
+			/* Active state */
+			.active {
+				background-color: #b2f2ff;
+				color: #fff;
+			}
+			
+			/* Headers */
+			#headers .content {
+				margin-top: -1.5rem;
+			}
+			#headers section[role="region"] {
+				margin-bottom: 1.5rem;
+			}
+			#headers section[role="region"]:not(#home) {
+				display: inline;
+			}
+			#headers article header:first-child {
+				margin-top: 1.5rem;
+			}
+			#headers section[role="region"] header h2 {
+				margin: 0 0 1.5rem 0;
+			}
+			
+			/* Lists */
+			/* to avoid double background effect on press */
+			[data-type=list] li>a:active {
+				background-color: transparent;
+			}
+			
+			/* Drawer */
+			section[role="region"]:not(#home) {
+				transition: none;
+				left: 0;
+				z-index: 0;
+				padding-left: 0;
+			}
+			section[data-type="sidebar"] + section[role="region"] > header:first-child > button,
+			section[data-type="sidebar"] + section[role="region"] > header:first-child > a {
+				/* background-position: 3.5rem center; */
+			}
+			
+			/* Switches */
+			#switches div:last-child label:last-child {
+				margin-left: 2rem;
+			}
+			#switches div:last-child {
+				margin-left: 2rem;
+			}
+			
+			/* Scrolling */
+			nav[data-type="scrollbar"] {
+				padding-top: 1rem;
+			}
+			nav[data-type="scrollbar"] p {
+				opacity: 1;
+			}
+			
+			/* Seek bars */
+			div[role="slider"] > label.icon {
+				background: no-repeat right top;
+				background-size: 3rem auto;
+			}
+			
+			/* Tabs */
+			#tabs .content {
+				padding: 0;
+			}
+			#tabs .content .content {
+				padding: 1.5rem 3rem;
+			}
+			#panel1 a {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAABaCAYAAACv+ebYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDM0IyRDEwMTRCQ0ExMUUzOEI3MkZFOEM1MTY1MUU0NSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDM0IyRDEwMjRCQ0ExMUUzOEI3MkZFOEM1MTY1MUU0NSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkMzQjJEMEZGNEJDQTExRTM4QjcyRkU4QzUxNjUxRTQ1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkMzQjJEMTAwNEJDQTExRTM4QjcyRkU4QzUxNjUxRTQ1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+RALCTwAAAgdJREFUeNrsmLFKA0EQhnNeULhOwSIQrAQFraI2FkKsBLGSdIakClj4BNa+gQhWSayUlBYWKQSLYEBtYsRCEAKKYKGgiKQ5Z2ACR7jd7N5NFGQGfoJzs/vlbjdz6+/4vp/4ixhJ/FEIWMACZotkWNJxHO2gQqHgwcc0/fkA+tLVVyoVMzBMrJpjHLSHJSCPcgitgnZBb7HuWBGToAvQbF8ev8A2KAtaAb1yr/F+CDQYeO2Ae3OlQTmDuk2qZQMv454zqHOolg3sWSyJxwluWYBbnOAbUNugrk21bGA8ppRAXU1Nl2p87p9TA7QG6oRc69C1xjAaCMY5aAa0AZqn3C3oFPQdu1cPCATUSEN9OyVp7XC35jV1W3T3JZMbGgSeAjVBh/Roywo4QvEVNEe1TRobCYyt7xKUCeTcEHieoG4gl6Gx6ShrfARKheR78F6U+6C9SNEcqzbgRXrNqSIIdzV1WZrryvRRLxlsOncAVDuXCjzGeLwatQF/MII/bcBPjOBnG/AdI/jeBoxN/4UBinM82jaQOgO4HqVzHTOAT6J0rjPQREzwu/JUKB6IgAUsYAELWMAC/vUIPfoUi0XtoOr6jpWJ6ucWzI4+Tu1aNUckEzUMLCaqzh0QEzVWrZioyh6QEBNVTFQxUcVENXzUYqLGCTFRtWAxUaOGmKjyb6qABfyPwD8CDADIZJaymr3BjwAAAABJRU5ErkJggg==);
+			}
+			#panel2 a {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAABaCAYAAACv+ebYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5NjZEOTM1MTRCQ0UxMUUzOEI3MkZFOEM1MTY1MUU0NSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5NjZEOTM1MjRCQ0UxMUUzOEI3MkZFOEM1MTY1MUU0NSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjlEMUREOTkyNEJDQjExRTM4QjcyRkU4QzUxNjUxRTQ1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjk2NkQ5MzUwNEJDRTExRTM4QjcyRkU4QzUxNjUxRTQ1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+XJ6+IQAAA0pJREFUeNrsmF1IVEEUx+fqwmoRRS9FREUf9lSs9lBERNSjRBB9PAQtGZWla+ZDH/QQ9VAQ9GVqIaH1YFRgRAW99BAUBVFa9BBREhm9FIVGUQm5/Q+eibvj3L0zd3e1jznwY53r7Px35p6Ze+7fS6fTYjSiSIxSOGEn7IT/fuGY53k5DZBMJuP42AjOAeNjMIYv0mcpOAJ2gwFL7RLQCirADlNxudQnwU7QBqIuQTVoMf1+DCwFW7i9AbwF+wL6HwArlWvFivggqDERPqH8yr2gF5zR9C8HC0LGpOU+Ct6ECc/WXD8NPoMO5Xo3mKqZccLXbgwTlcK3wWrNYG08wD3f9YOMP8aDPv67CdSbJldHwP8ou99ZJFczqLPJ6psBAofAa4MxvoMqkFJEPU7aeJDwACeDGg8MZ/oDtGtEW3h/l2Tbx62a2ZVH3M9StDosueRypXjZZdTxfRu0FG5WRO+An0qfG8WJxO+d8BLMAfO5PRF8BA8tRKdpknUymKLQrz6dapU9SOf3XAvhXt7H/ngCHit0x5ROfbyn74IxYCwv/2LwwVC8nnOnltvLaIYmz+MusNmXpXSy3QKTDIXTnB9NUQqBS/y0kkHn831QZilexYlrVYHQeb3f154JHoFtmu9RUi3UiLfzPrcufQ4rx+A4cBY853u4iO/pM942a4wrEIM+NPP3/OtL+VoZX1fjMmgAp/JV7NGAS3i7hI1H1cyxsErEpsrs4sPlokHfBk7QeL7K234uj1aBnpC+68DxfNfV18E8sCvLM/s82FOIgv4b389ZnM1XwSfwFCwHm8CXXLLa5HncyRTx1gutQjzngThhJ+yEnbATdsJO+P8R9tjLjBwXKlORTFRPXKH3sJxMVOlz0TuVM1GzLjV5EhXKdVoynYl6jV9fwmKG+FNNVJpxpxhuogpOshUi00TNllyCfQ8jP9OZqP74N01UeXJRVIpME/WVGLITbU1UEt3ua5OlONxEFWu3ysaImqj+GVNM4F84ndtfxZCr98JCvJETLeuMVWHBp5g0UeWS25ioHh9ANb7JjJiJmhLORLUsfQpmouqSSxfrRaaJGhS0552Jmpfy1pmokU1U06y2eTNxJqoTdsJOuLDxS4ABAHTFDfqZk4Q5AAAAAElFTkSuQmCC);
+			}
+			#panel3 a {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAABQCAYAAAAOYsW+AAAA30lEQVRo3u2YMQrCQBBFv95ICXqTtDmJKfQk01olED2DiugF1MImjXqBWNisEIZVFIKFvFftzmdnt3kwrAQAAB/S84Usy0aS1q68N7NhyKeSJi6fmVke8p2kgcvHZrZpF/qRx1witesX+e2TnrGLz5IaVzu9WD85ttYHlzWh5/uLzewuqXQHF639SlLd2teh9mTpHl6GnoDHePxbjwt3sPrC48o9vMBjPMZjPAYAAACAjuZqzbfRuVppMgx5dK5WmuQhj87VShPmakeadP7PFXoCHuMxHgMe4zEeA8C/8ABPaein4jLEkQAAAABJRU5ErkJggg==);
+			}
+			
+			/* Filters */
+			[role="tablist"][data-type="filter"] {
+				margin-bottom: 2rem;
+			}
+			
+			/* Device rotation */
+				.landscape section[role="region"]#index > header:first-child {
+				/* Whatever needs to be changed on landscape */
+			}
+		</style>
+	</head>
+	<body>
+		<section id="index" data-position="current">
+			<section data-type="sidebar">
+				<header>
+					<menu type="toolbar">
+						<a href="#">Done</a>
+					</menu>
+					<h1>Actions</h1>
+				</header>
+				<nav>
+					<ul>
+						<li><a id="action-add-account" href="#">Add Account</a></li>
+						<li><a id="action-sync" href="#">Sync Accounts</a></li>
+						<li><a id="action-about" href="#">About</a></li>
+					</ul>
+				</nav>
+			</section>
+			<section id="home" role="region">
+				<header class="fixed">
+					<a href="#"><span class="icon icon-menu">hide sidebar</span></a>
+					<a href="#home"><span class="icon icon-menu">show sidebar</span></a>
+					<h1>Contact Dav</h1>
+				</header>
+				
+				<article class="scrollable header">
+					<section data-type="list">
+						<header>Accounts</header>
+					<ul id="list-accounts">
+					</ul>
+					</section>
+					<div class="content">
+						<button id="btn-add-account">Add Account</button>
+						<button id="btn-remove-all-account" class="danger">Remove All Accounts</button>
+					</div>
+				</article>
+			</section>
+		</section>
+		
+		<!-- confirm remove all -->
+		<section id="confirm-remove-all" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Confirmation</h1>
+					<p>Are you sure you want to remove all accounts?</p>
+				</section>
+				<menu>
+					<button id="btn-remove-all-cancel">Cancel</button>
+					<button id="btn-remove-all-confirmed" class="danger">Remove</button>
+				</menu>
+			</form>
+		</section>
+		
+		<!-- confirm remove account -->
+		<section id="confirm-remove-account" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Confirmation</h1>
+					<p>Are you sure you want to remove this account?</p>
+				</section>
+				<menu>
+					<button id="btn-account-remove-cancel">Cancel</button>
+					<button id="btn-account-remove-confirmed" class="danger">Remove</button>
+				</menu>
+			</form>
+		</section>
+		
+		<!-- add account -->
+		<section role="region" id="add-account" data-position="right">
+			<header class="fixed">
+				<a id="btn-add-account-back" href="#"><span class="icon icon-back">back</span></a>
+				<h1>Add Account</h1>
+			</header>
+			<article class="content scrollable header">
+				<form >
+					<p>
+						<input type="text" id="new_account_name" placeholder="Account name" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="new_account_url" placeholder="CardDAV URL" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="new_account_user" placeholder="Username" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="password" id="new_account_password" placeholder="Password" required>
+						<button type="reset">Clear</button>
+					</p>
+					<div class="gaia-list">
+						<ul>
+							<li>
+								<label class="pack-switch">
+									<input id="new_account_sync" type="checkbox" checked>
+									<span>Sync</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+				</form>
+				<p>
+					<button id="btn-account-save">Save</button>
+				</p>
+			</article>
+		</section>
+		
+		<!-- edit account -->
+		<section role="region" id="edit-account" data-position="right">
+			<header class="fixed">
+				<a id="btn-edit-account-back" href="#"><span class="icon icon-back">back</span></a>
+				<h1>Edit Account</h1>
+			</header>
+			<article class="content scrollable header">
+				<form >
+					<p>
+						<input type="text" id="edit_account_name" placeholder="Account name" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="edit_account_url" placeholder="CardDAV URL" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="edit_account_user" placeholder="Username" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="password" id="edit_account_password" placeholder="Password" required>
+						<button type="reset">Clear</button>
+					</p>
+					<div class="gaia-list">
+						<ul>
+							<li>
+								<label class="pack-switch">
+									<input id="edit_account_sync" type="checkbox" checked>
+									<span>Sync</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+					<input type="hidden" id="edit_account_id">
+				</form>
+				<p>
+					<button id="btn-account-update">Save</button>
+					<button id="btn-account-remove" class="danger">Remove</button>
+				</p>
+			</article>
+		</section>
+		
+		<!-- sync -->
+		<section role="region" id="sync" data-position="right">
+			<header class="fixed">
+				<a id="btn-sync-back" href="#"><span class="icon icon-back">back</span></a>
+				<h1>Sync Accounts</h1>
+			</header>
+			<article class="content scrollable header">
+				<p style="display:none;visibility:hidden;">
+					<label for="sel-sync-interval">Sync interval</label>
+					<select id="sel-sync-interval">
+						<option value="0">None</option>
+						<option value="5">5 minutes</option>
+						<option value="15">15 minutes</option>
+						<option value="30">30 minutes</option>
+						<option value="60">1 hour</option>
+						<option value="120">2 hours</option>
+						<option value="3600">once a day</option>
+					</select>
+				</p>
+				<div class="gaia-list">
+					<ul>
+						<li>
+							<label class="pack-switch">
+								<input id="chk-del-contacts" type="checkbox">
+								<span>Wipe local contacts<br>before sync</span>
+							</label>
+						</li>
+					</ul>
+				</div>
+				<p>
+					<button id="btn-sync">Sync Now</button>
+				</p>
+			</article>
+		</section>
+		
+		<section id="sync-accounts" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Syncing Adressbooks ...</h1>
+					<p>Contacts synchronized: <span id="sync-count">0</span></p>
+					<div class="center">
+						<progress></progress>
+					</div>
+				</section>
+			</form>
+		</section>
+		
+		<!-- find adressbooks -->
+		<section id="find-addressbooks" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Searching for Adressbooks ...</h1>
+					<ul class="small">
+					</ul>
+					<div class="center">
+						<progress></progress>
+					</div>
+				</section>
+				<menu>
+					<button id="btn-find-addressbooks-cancel">Cancel</button>
+					<button id="btn-find-addressbooks-save" class="recommend">Save</button>
+				</menu>
+			</form>
+		</section>
+		
+		<!-- about -->
+		<section role="region" id="about" data-position="right">
+			<header class="fixed">
+				<a id="btn-about-back" href="#"><span class="icon icon-back">back</span></a>
+				<h1>About</h1>
+			</header>
+			<article class="content scrollable header">
+				<h3>Contact Dav</h3>
+				<p class="small">
+					Developed by Matthias Bendel<br>
+					Logo/Icon by Ulrich Dobiasch
+				</p>
+				<h4>Used Libraries</h4>
+				<p class="small">
+					<b>Async.js</b><br>
+					by Caolan McMahon<br>
+					<a href="https://github.com/caolan/async" target="_blank">on GitHub</a>
+					<br><br>
+					<b>jsDAVlib</b><br>
+					by Fernando Rodríguez Sela<br>
+					<a href="https://github.com/frsela/jsDAVlib" target="_blank">on GitHub</a>
+					<br><br>
+					<b>MD5 Algorithm Implementation</b><br>
+					by Joseph Myers<br>
+					<a href="http://www.myersdaily.org/joseph/javascript/md5-text.html" target="_blank">Website</a>
+					<br><br>
+					<b>vCardJS</b><br>
+					by Niklas Cathor<br>
+					<a href="https://github.com/nilclass/vcardjs" target="_blank">on GitHub</a>
+					<br><br>
+					<b>Building-Blocks</b><br>
+					Reusable components for Firefox OS<br>
+					<a href="https://github.com/buildingfirefoxos/Building-Blocks" target="_blank">on GitHub</a>
+					<br>&nbsp;
+				</p>
+			</article>
+		</section>
+		
+		<script type="text/javascript" src="assets/jsDAVlib/jsDAVlib.js"></script>
+		<script type="text/javascript" src="assets/jsDAVlib/jsDAVXMLParser.js"></script>
+		<script type="text/javascript" src="assets/jsDAVlib/jsDAVConnection.js"></script>
+		<script type="text/javascript" src="assets/jsDAVlib/jsDAVCommunications.js"></script>
+		<script type="text/javascript" src="assets/jsDAVlib/jsDAVResource.js"></script>
+		
+		<script type="text/javascript" src="assets/vcardjs/vcard.js"></script>
+		<script type="text/javascript" src="assets/vcardjs/vcf.js"></script>
+		
+		<script type="text/javascript" src="assets/async/async.js"></script>
+		
+		<script type="text/javascript" src="assets/buildingblocks/js/status.js"></script>
+		<script type="text/javascript" src="assets/js/SettingStorage.js"></script>
+		<script type="text/javascript" src="assets/js/AccountStorage.js"></script>
+		<script type="text/javascript" src="assets/js/ContactMapStorage.js"></script>
+		<script type="text/javascript" src="assets/js/ContactHandler.js"></script>
+		<script type="text/javascript" src="assets/js/CardDAV.js"></script>
+		<script type="text/javascript" src="assets/js/md5.js"></script>
+		<script type="text/javascript" defer src="assets/js/app.js"></script>
+		
+	</body>
+</html>

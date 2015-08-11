@@ -1,0 +1,45 @@
+{
+  "name": "Contact Dav",
+  "description": "CardDAV sync client",
+  "version": "0.1",
+  "type": "privileged",
+  "launch_path": "/index.html",
+  "icons": {
+	  "16": "/assets/icon/ContactDAV-16.png",
+	  "32": "/assets/icon/ContactDAV-32.png",
+	  "48": "/assets/icon/ContactDAV-48.png",
+	  "60": "/assets/icon/ContactDAV-60.png",
+	  "128": "/assets/icon/ContactDAV-128.png",
+	  "512": "/assets/icon/ContactDAV-512.png"
+	},
+  "default_locale": "en",
+  "origin": "app://contactdav.mabe.at",
+  "developer": {
+    "name": "Matthias Bendel",
+    "url": "https://contactdav.mabe.at"
+  },
+  "permissions": {
+    "systemXHR": {
+      "description": "This permission is required for contacting CardDAV servers."
+    },
+    "storage": {
+    	"description": "This permission is required for saving account and settings data."
+    },
+    "contacts": {
+      "access": "readwrite",
+      "description": "This permission is required for saving/updation contacts."
+    },
+    "alarms": {
+      "description": "This permission is required for scheduling syncronization."
+    }
+  },
+  "messages": [
+    { "alarm": "/index.html" }
+  ],
+  "locales": {
+    "en": {
+      "name": "Contact Dav",
+      "description": "Import contacts from CardDAV server"
+    }
+  }
+}
