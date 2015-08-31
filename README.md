@@ -3,7 +3,7 @@
 Import contacts from CardDAV server.
 At the moment one-way sync (from server to phone) only.
 
-Contact Dav will be available at [Firefox Marketplace](https://marketplace.firefox.com/app/contact-dav/) soon.
+Contact Dav is available at [Firefox Marketplace](https://marketplace.firefox.com/app/contact-dav/).
 
 **Logo/Icon by [Ulrich Dobiasch](https://github.com/uldo)**
 
