@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<title>Contact Dav</title>
+		<link rel="stylesheet" href="css/app.css">
+	</head>
+
+	<body>
+
+		<div class="app">
+			<div class="app-content"></div>
+		</div>
+
+
+		<!-- confirm remove all
+		<section id="confirm-remove-all" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Confirmation</h1>
+					<p>Are you sure you want to remove all accounts?</p>
+				</section>
+				<menu>
+					<button id="btn-remove-all-cancel">Cancel</button>
+					<button id="btn-remove-all-confirmed" class="danger">Remove</button>
+				</menu>
+			</form>
+		</section>
+		-->
+
+
+		<!-- confirm remove account
+		<section id="confirm-remove-account" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Confirmation</h1>
+					<p>Are you sure you want to remove this account?</p>
+				</section>
+				<menu>
+					<button id="btn-account-remove-cancel">Cancel</button>
+					<button id="btn-account-remove-confirmed" class="danger">Remove</button>
+				</menu>
+			</form>
+		</section>
+		 -->
+
+
+		<!-- add account
+		<section role="region" id="add-account" data-position="right">
+			<header class="fixed">
+				<a id="btn-add-account-back" href="#"><span class="icon icon-back">back</span></a>
+				<h1>Add Account</h1>
+			</header>
+			<article class="content scrollable header">
+				<form >
+					<p>
+						<input type="text" id="new_account_name" placeholder="Account name" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="new_account_url" placeholder="CardDAV URL" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="new_account_user" placeholder="Username" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="password" id="new_account_password" placeholder="Password" required>
+						<button type="reset">Clear</button>
+					</p>
+					<div class="gaia-list">
+						<ul>
+							<li>
+								<label class="pack-switch">
+									<input id="new_account_sync" type="checkbox" checked>
+									<span>Sync</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+				</form>
+				<p>
+					<button id="btn-account-save">Save</button>
+				</p>
+			</article>
+		</section>
+		-->
+
+
+		<!-- edit account
+		<section role="region" id="edit-account" data-position="right">
+			<header class="fixed">
+				<a id="btn-edit-account-back" href="#"><span class="icon icon-back">back</span></a>
+				<h1>Edit Account</h1>
+			</header>
+			<article class="content scrollable header">
+				<form >
+					<p>
+						<input type="text" id="edit_account_name" placeholder="Account name" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="edit_account_url" placeholder="CardDAV URL" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="text" id="edit_account_user" placeholder="Username" required>
+						<button type="reset">Clear</button>
+					</p>
+					<p>
+						<input type="password" id="edit_account_password" placeholder="Password" required>
+						<button type="reset">Clear</button>
+					</p>
+					<div class="gaia-list">
+						<ul>
+							<li>
+								<label class="pack-switch">
+									<input id="edit_account_sync" type="checkbox" checked>
+									<span>Sync</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+					<input type="hidden" id="edit_account_id">
+				</form>
+				<p>
+					<button id="btn-account-update">Save</button>
+					<button id="btn-account-remove" class="danger">Remove</button>
+				</p>
+			</article>
+		</section>
+ 		-->
+
+
+		<!--
+		<section id="sync-accounts" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Syncing Adressbooks ...</h1>
+					<p>Contacts synchronized: <span id="sync-count">0</span></p>
+					<div class="center">
+						<progress></progress>
+					</div>
+				</section>
+			</form>
+		</section>
+		-->
+
+
+		<!-- find adressbooks
+		<section id="find-addressbooks" data-position="back" class="fullscreen">
+			<form role="dialog" data-type="confirm">
+				<section>
+					<h1>Searching for Adressbooks ...</h1>
+					<ul class="small">
+					</ul>
+					<div class="center">
+						<progress></progress>
+					</div>
+				</section>
+				<menu>
+					<button id="btn-find-addressbooks-cancel">Cancel</button>
+					<button id="btn-find-addressbooks-save" class="recommend">Save</button>
+				</menu>
+			</form>
+		</section>
+		-->
+
+		<script type="text/javascript" src="js/old/jsDAVlib/jsDAVlib.js"></script>
+		<script type="text/javascript" src="js/old/jsDAVlib/jsDAVXMLParser.js"></script>
+		<script type="text/javascript" src="js/old/jsDAVlib/jsDAVConnection.js"></script>
+		<script type="text/javascript" src="js/old/jsDAVlib/jsDAVCommunications.js"></script>
+		<script type="text/javascript" src="js/old/jsDAVlib/jsDAVResource.js"></script>
+		<script type="text/javascript" src="js/old/vcardjs/vcard.js"></script>
+		<script type="text/javascript" src="js/old/vcardjs/vcf.js"></script>
+		<script type="text/javascript" src="js/old/async/async.js"></script>
+
+		<script type="text/javascript" src="js/old/SettingStorage.js"></script>
+		<script type="text/javascript" src="js/old/AccountStorage.js"></script>
+		<script type="text/javascript" src="js/old/ContactMapStorage.js"></script>
+		<script type="text/javascript" src="js/old/ContactHandler.js"></script>
+		<script type="text/javascript" src="js/old/CardDAV.js"></script>
+		<script type="text/javascript" src="js/old/md5.js"></script>
+
+		<script type="text/javascript" src="js/old/app.js"></script>
+
+
+
+		<script defer data-main="js/main" src="js/libs/require/require.js"></script>
+
+	</body>
+</html>

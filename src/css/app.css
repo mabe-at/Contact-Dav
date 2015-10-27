@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin-bottom: 1rem;
+}
+
+.page-content {
+  padding: 1em;
+}
+
+.header {
+  position: relative;
+  text-align: center;
+  padding: .5em 0;
+  background: #E0E0E0;
+  color: #666;
+}
+
+.header h1 {
+  margin-bottom: 0;
+}
+
+.header-leftcontent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.header-leftcontent .button {
+  margin: .3em !important;
+}
+
+
+.button {
+  display: block;
+  margin-bottom: 1em;
+  padding: .5em;
+  background: #D0D0D0;
+  border-radius: 3px;
+  text-align: center;
+  text-decoration: none;
+  color: darkred;
+  border: 0;
+}
+
+.button.-inline {
+  display: inline-block;
+  margin: 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 1em;
+}
