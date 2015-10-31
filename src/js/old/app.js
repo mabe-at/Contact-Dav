@@ -2,7 +2,8 @@
 
 // helpers
 var forEach = Array.prototype.forEach,
-    $ = document.querySelector;
+    $ = document.querySelector,
+    $All = document.querySelectorAll;
 
 var syncCalls = 0;
 var bookCalls = 0;
@@ -19,21 +20,6 @@ $('#chk-del-contacts').addEventListener('change', function() {
 });
 
 //add-account
-$('#btn-add-account').addEventListener ('click', function () {
-	resetNewAccountFields();
-	$('#add-account').className = 'current';
-	$('[data-position="current"]').className = 'left';
-});
-$('#action-add-account').addEventListener ('click', function () {
-	resetNewAccountFields();
-	$('#add-account').className = 'current';
-	$('[data-position="current"]').className = 'left';
-});
-$('#btn-add-account-back').addEventListener ('click', function () {
-	$('#add-account').className = 'right';
-	$('[data-position="current"]').className = 'current';
-});
-
 $('#btn-find-addressbooks-cancel').addEventListener ('click', function () {
 	$('#find-addressbooks').className = 'fade-out';
 	cleanTMP();
@@ -271,88 +257,6 @@ $('#btn-account-remove-confirmed').addEventListener ('click', function() {
   utils.status.show('Account Removed!');
 });
 
-$('#btn-account-save').addEventListener ('click', function () {
-	var error = false;
-	if (document.getElementById('new_account_name').value.trim() == '') {
-		error = true;
-	}
-	if (document.getElementById('new_account_url').value.trim() == '') {
-		error = true;
-	}
-	if (document.getElementById('new_account_user').value.trim() == '') {
-		error = true;
-	}
-	if (document.getElementById('new_account_password').value.trim() == '') {
-		error = true;
-	}
-	if (!error) {
-		var account_data = {
-			name: document.getElementById('new_account_name').value,
-			url: document.getElementById('new_account_url').value,
-			user: document.getElementById('new_account_user').value,
-			password: document.getElementById('new_account_password').value,
-			sync: document.getElementById('new_account_sync').checked
-		};
-
-		checkAdressbooks(account_data);
-	}
-	else {
-		utils.status.show('Please fill out all fields!');
-	}
-});
-
-function checkAdressbooks(account) {
-	var ul = $('#find-addressbooks ul');
-	if (ul) {
-		while (ul.firstChild) {
-			ul.removeChild(ul.firstChild);
-		}
-	}
-
-	$('#find-addressbooks h1').textContent = 'Searching for Adressbooks ...';
-	$('#find-addressbooks section').style.overflow = 'hidden';
-	$('#find-addressbooks menu').style.display = 'none';
-	$('#find-addressbooks div').style.display = 'block';
-	$('#find-addressbooks').className = 'fade-in';
-	try {
-		CardDAV.findAddressbooks(account, saveWithBooks);
-	}
-	catch(e) {
-		saveWithBooks(account, []);
-	}
-}
-
-function saveWithBooks(account, books) {
-
-	if (books.length > 0) {
-		$('#find-addressbooks menu').style.display = 'block';
-		$('#find-addressbooks div').style.display = 'none';
-		$('#find-addressbooks h1').textContent = books.length + ' ' + (books.length > 1 ? 'Adressbooks' : 'Adressbook') + ' found';
-		var ul = $('#find-addressbooks ul');
-		if (ul) {
-			for (var b in books) {
-				var li = document.createElement('li');
-				li.textContent = books[b].displayname;
-				ul.appendChild(li);
-			}
-		}
-		saveTMP('account', account);
-		saveTMP('books', books);
-	}
-	else {
-		$('#find-addressbooks').className = 'fade-out';
-		utils.status.show('No Adressbooks Found!');
-	}
-}
-
-function resetNewAccountFields() {
-	document.getElementById('new_account_name').value = '';
-	document.getElementById('new_account_url').value = '';
-	document.getElementById('new_account_user').value = '';
-	document.getElementById('new_account_password').value = '';
-	document.getElementById('new_account_sync').checked = true;
-}
-
 function updateAccount(account) {
 	var a = $('[data-id="'+ account.id +'"]');
 	if (!a) {
@@ -371,71 +275,13 @@ function updateAccount(account) {
 	a.appendChild(p2);
 }
 
-function addAccount(account) {
-		var a = document.createElement('a');
-		a.href = '#';
-		a.setAttribute("data-id",account.id);
 
-		var p1 = document.createElement('p');
-		p1.textContent = account.name;
-		var p2 = document.createElement('p');
-		p2.textContent = account.url;
 
-		a.appendChild(p1);
-		a.appendChild(p2);
 
-		a.addEventListener('click', function() {
-			var aid = this.getAttribute('data-id');
-			var acc = AccountStorage.get(aid);
 
-			document.getElementById('edit_account_name').value = acc.name;
-			document.getElementById('edit_account_name').defaultValue = acc.name;
 
-			document.getElementById('edit_account_url').value = acc.url;
-			document.getElementById('edit_account_url').defaultValue = acc.url;
 
-			document.getElementById('edit_account_user').value = acc.user;
-			document.getElementById('edit_account_user').defaultValue = acc.user;
 
-			document.getElementById('edit_account_password').value = acc.password;
-			document.getElementById('edit_account_password').defaultValue = acc.password;
-
-			if (acc.sync) {
-				document.getElementById('edit_account_sync').checked = true;
-			}
-			else {
-				document.getElementById('edit_account_sync').checked = false;
-			}
-
-			document.getElementById('edit_account_id').value = aid;
-
-			$('#edit-account').className = 'current';
-			$('[data-position="current"]').className = 'left';
-		});
-
-		var li = document.createElement('li');
-		li.setAttribute("id",'account-'+account.id);
-		li.appendChild(a);
-		var list = document.getElementById('list-accounts');
-		list.appendChild(li);
-}
-
-forEach.call(
-	$All('form p input + button[type="reset"], form p textarea + button[type="reset"]'),
-	function( el ) {
-	el.addEventListener ('mousedown', function () {
-		var field = $('input:focus , textarea:focus');
-		//field.value = field.defaultValue;
-		field.value = '';
-	});
-});
-
-// read and display all accounts
-var accs = AccountStorage.getAll();
-for (var acc in accs) {
-	addAccount(accs[acc]);
-}
-utils.status.init();
 
 function checkCardDAV(account) {
 	CardDAV.openAccount(account);
@@ -448,12 +294,4 @@ function sleep(milliseconds) {
       break;
     }
   }
-}
-
-function saveTMP(k, v) {
-	TMP[k] = v;
-}
-
-function cleanTMP(k, v) {
-	TMP = {};
 }

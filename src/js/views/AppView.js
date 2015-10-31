@@ -5,14 +5,15 @@ define([
   'views/IndexView',
   'views/AccountListView',
   'views/AccountSyncView',
-  'views/AboutView'
-], function (_, Backbone, Mustache, IndexView, AccountListView, AccountSyncView, AboutView) {
+  'views/AboutView',
+  'views/AddAccountView'
+], function (_, Backbone, Mustache, IndexView, AccountListView, AccountSyncView, AboutView, AddAccountView) {
   'use strict';
 
   var AppView = Backbone.View.extend({
 
       events: {
-        'click .js-changepage': 'changePage'
+        'click [data-action="change-page"]': 'changePage'
       },
 
       initialize: function initialize() {
@@ -41,6 +42,10 @@ define([
 
           case 'about':
             view = new AboutView({ el: $appContent });
+          break;
+
+          case 'add-account':
+            view = new AddAccountView({ el: $appContent });
           break;
         }
 

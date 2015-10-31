@@ -1,6 +1,10 @@
 (function () {
   'use strict';
 
+  var app = {
+    TMP: {}
+  };
+
   require.config({
     paths: {
       text: 'libs/require/text',

@@ -1,12 +1,11 @@
 <section class="page" id="account-list">
   <header class="header">
-    <div class="header-leftcontent"><a class="button -inline js-changepage" href="index">Back</a></div>
+    <div class="header-leftcontent"><a class="button -inline" data-action="change-page" href="index">Back</a></div>
     <h1>Account List</h1>
   </header>
   <div class="page-content">
-    <ul id="list-accounts">
-    </ul>
-    <a class="button" id="btn-add-account" href="#">Add Account</a>
-    <a class="button" id="btn-remove-all-account" href="#">Remove All Accounts</a>
+    <ul data-target="account-list"></ul>
+    <a class="button" data-action="change-page" href="add-account">Add Account</a>
+    <a class="button" data-action="remove-all-accounts" id="btn-remove-all-account" href="#">Remove All Accounts</a> <!-- TODO -->
   </div>
 </section>
