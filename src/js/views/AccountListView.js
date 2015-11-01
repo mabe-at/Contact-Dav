@@ -10,7 +10,8 @@ define([
   var AccountListView = Backbone.View.extend({
 
       events: {
-        'click [data-action="edit-account"]': 'editAccount'
+        'click [data-action="edit-account"]': 'editAccount',
+        'click [data-action="remove-all-accounts"]': 'removeAllAccounts'
       },
 
       render: function render() {
@@ -22,48 +23,35 @@ define([
         var $accountList = this.$el.find('[data-target="account-list"]');
 
         $.each(AccountStorage.getAll(), function(index, account){
-          var $account = $('<li id="account-'+account.id+'" />');
+          if(account !== undefined){
+            var $account = $('<li id="account-'+account.id+'" />');
 
-          $account.html([
-            '<a href="#" data-action="edit-account" data-id="',account.id,'">',
-              '<p>',account.name,'</p>',
-              '<p>',account.url,'</p>',
-            '</a>'
-          ].join(''));
+            $account.html([
+              '<a href="#" data-action="edit-account" data-id="',account.id,'">',
+                '<p><strong>',account.name,'</strong><br>',account.url,'</p>',
+              '</a>'
+            ].join(''));
 
-      		$accountList.append($account);
+        		$accountList.append($account);
+          }
         });
       },
 
       editAccount: function editAccount(ev){
-        var accountId = $(ev.currentTarget).attr('data-id');
-  			    account = AccountStorage.get(accountId);
+        app.EventBus.trigger('app:changePage', {
+          page: 'account-form',
+          params: {
+            formType: 'edit',
+            accountId: $(ev.currentTarget).attr('data-id')
+          }
+        });
+      },
 
-        /*
-  			document.getElementById('edit_account_name').value = account.name;
-  			document.getElementById('edit_account_name').defaultValue = account.name;
-
-  			document.getElementById('edit_account_url').value = account.url;
-  			document.getElementById('edit_account_url').defaultValue = account.url;
-
-  			document.getElementById('edit_account_user').value = account.user;
-  			document.getElementById('edit_account_user').defaultValue = account.user;
-
-  			document.getElementById('edit_account_password').value = account.password;
-  			document.getElementById('edit_account_password').defaultValue = account.password;
-
-  			if (account.sync) {
-  				document.getElementById('edit_account_sync').checked = true;
-  			}
-  			else {
-  				document.getElementById('edit_account_sync').checked = false;
-  			}
-
-  			document.getElementById('edit_account_id').value = accountId;
-        */
-
-        alert('edit account: '+accountId);
-        console.log(account);
+      removeAllAccounts: function removeAllAccounts(){
+        if(confirm('Are you sure you want to remove all accounts?') === true){
+          this.$el.find('[data-target="account-list"]').html('');
+          AccountStorage.delall();
+        }
       }
   });
 

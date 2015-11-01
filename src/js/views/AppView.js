@@ -6,8 +6,17 @@ define([
   'views/AccountListView',
   'views/AccountSyncView',
   'views/AboutView',
-  'views/AddAccountView'
-], function (_, Backbone, Mustache, IndexView, AccountListView, AccountSyncView, AboutView, AddAccountView) {
+  'views/AccountFormView'
+], function (
+  _,
+  Backbone,
+  Mustache,
+  IndexView,
+  AccountListView,
+  AccountSyncView,
+  AboutView,
+  AccountFormView
+) {
   'use strict';
 
   var AppView = Backbone.View.extend({
@@ -17,35 +26,44 @@ define([
       },
 
       initialize: function initialize() {
-        this.setElement('.app');
-        this.render();
+        // init eventbus
+        app.EventBus = _.extend({}, Backbone.Events);
+
+        // add eventbus events
+        app.EventBus.on('app:changePage', this.render, this);
       },
 
-      render: function render(page) {
-        var $appContent = this.$el.find('.app-content'),
+      render: function render(data) {
+        var page = (data !== undefined && data.page !== undefined) ? data.page : 'index',
+            params = (data !== undefined && data.params !== undefined) ? data.params : {},
+            $appContent = this.$el.find('.app-content'),
             view = { render: function(){} };
 
-        page = page || 'index';
+        // reset view events
+        $appContent.off();
+
+        // set view container
+        params.el = $appContent;
 
         switch (page) {
           case 'index':
-            view = new IndexView({ el: $appContent });
+            view = new IndexView(params);
           break;
 
           case 'account-list':
-            view = new AccountListView({ el: $appContent });
+            view = new AccountListView(params);
           break;
 
           case 'account-sync':
-            view = new AccountSyncView({ el: $appContent });
+            view = new AccountSyncView(params);
           break;
 
           case 'about':
-            view = new AboutView({ el: $appContent });
+            view = new AboutView(params);
           break;
 
-          case 'add-account':
-            view = new AddAccountView({ el: $appContent });
+          case 'account-form':
+            view = new AccountFormView(params);
           break;
         }
 
@@ -53,7 +71,10 @@ define([
       },
 
       changePage: function changePage(ev) {
-        this.render($(ev.currentTarget).attr('href'));
+        var $elem = $(ev.currentTarget);
+        this.render({
+          page: ($elem.attr('href') === undefined) ? $elem.attr('data-href') : $elem.attr('href')
+        });
         ev.preventDefault();
       }
   });

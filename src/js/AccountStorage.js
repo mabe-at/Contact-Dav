@@ -60,7 +60,7 @@ define([
 				return id;
 			},
 			del: function delAccount(id) {
-				accounts[id] = undefined;
+        delete accounts[id];
 				store();
 			},
 			delall: function delAllAccounts() {

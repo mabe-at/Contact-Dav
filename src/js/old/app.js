@@ -12,6 +12,10 @@ var sync_count;
 
 var TMP = {};
 
+
+
+
+
 $('#sel-sync-interval').addEventListener('change', function() {
 	SettingStorage.setInterval(parseInt(this.value));
 });
@@ -19,77 +23,9 @@ $('#chk-del-contacts').addEventListener('change', function() {
 	SettingStorage.setWipe(this.checked);
 });
 
-//add-account
-$('#btn-find-addressbooks-cancel').addEventListener ('click', function () {
-	$('#find-addressbooks').className = 'fade-out';
-	cleanTMP();
-});
 
-$('#btn-find-addressbooks-save').addEventListener ('click', function () {
-	$('#find-addressbooks').className = 'fade-out';
-	var account = TMP.account;
-	var books = TMP.books;
-	account.books = books;
-	var aid = AccountStorage.set(account);
-	if (account.id) {
-		var a = $('[data-id="'+ account.id +'"]')
-		if (!a) {
-			addAccount(account);
-		}
-		else {
-			updateAccount(account);
-		}
-	}
-	else {
-		account.id = aid;
-		addAccount(account);
-	}
 
-	$('.current').className = 'right';
-	$('[data-position="current"]').className = 'current';
 
-	resetNewAccountFields();
-
-	utils.status.show('Account saved!');
-	cleanTMP();
-});
-
-// remove all accounts
-$('#btn-remove-all-account').addEventListener ('click', function () {
-  $('#confirm-remove-all').className = 'fade-in';
-});
-$('#btn-remove-all-cancel').addEventListener ('click', function () {
-  $('#confirm-remove-all').className = 'fade-out';
-});
-$('#btn-account-remove-cancel').addEventListener ('click', function () {
-  $('#confirm-remove-account').className = 'fade-out';
-});
-$('#btn-remove-all-confirmed').addEventListener ('click', function () {
-	AccountStorage.delall();
-	var l = $('#list-accounts');
-	while (l.firstChild) {
-		l.removeChild(l.firstChild);
-	}
-  $('#confirm-remove-all').className = 'fade-out';
-  utils.status.show('All accounts removed!');
-});
-
-// about
-$('#action-about').addEventListener ('click', function () {
-	resetNewAccountFields();
-  $('#about').className = 'current';
-  $('[data-position="current"]').className = 'left';
-});
-$('#btn-about-back').addEventListener ('click', function () {
-  $('#about').className = 'right';
-  $('[data-position="current"]').className = 'current';
-});
-
-// edit account
-$('#btn-edit-account-back').addEventListener ('click', function () {
-  $('#edit-account').className = 'right';
-  $('[data-position="current"]').className = 'current';
-});
 
 // sync accounts
 $('#action-sync').addEventListener ('click', function () {
@@ -210,70 +146,6 @@ function saveContact(vcard, book) {
 	ContactHandler.setContact(vcard, book);
 }
 
-$('#btn-account-update').addEventListener ('click', function() {
-		var error = false;
-		if (document.getElementById('edit_account_name').value.trim() == '') {
-			error = true;
-		}
-		if (document.getElementById('edit_account_url').value.trim() == '') {
-			error = true;
-		}
-		if (document.getElementById('edit_account_user').value.trim() == '') {
-			error = true;
-		}
-		if (document.getElementById('edit_account_password').value.trim() == '') {
-			error = true;
-		}
-		if (!error) {
-			var account_data = {
-				id: document.getElementById('edit_account_id').value,
-				name: document.getElementById('edit_account_name').value,
-				url: document.getElementById('edit_account_url').value,
-				user: document.getElementById('edit_account_user').value,
-				password: document.getElementById('edit_account_password').value,
-				sync: document.getElementById('edit_account_sync').checked
-			};
-
-			checkAdressbooks(account_data);
-    }
-    else {
-			utils.status.show('Please fill out all data!');
-		}
-});
-$('#btn-account-remove').addEventListener ('click', function() {
-	$('#confirm-remove-account').className = 'fade-in';
-});
-$('#btn-account-remove-confirmed').addEventListener ('click', function() {
-	var aid = document.getElementById('edit_account_id').value;
-	AccountStorage.del(aid);
-
-	var listItem = document.getElementById('account-' + aid);
-	var list = document.getElementById('list-accounts');
-	list.removeChild(listItem);
-
-	$('#confirm-remove-account').className = 'fade-out';
-	$('#edit-account').className = 'right';
-  $('[data-position="current"]').className = 'current';
-  utils.status.show('Account Removed!');
-});
-
-function updateAccount(account) {
-	var a = $('[data-id="'+ account.id +'"]');
-	if (!a) {
-		return;
-	}
-	while (a.firstChild) {
-		a.removeChild(a.firstChild);
-	}
-
-	var p1 = document.createElement('p');
-	p1.textContent = account.name;
-	var p2 = document.createElement('p');
-	p2.textContent = account.url;
-
-	a.appendChild(p1);
-	a.appendChild(p2);
-}
 
 
 

@@ -1,9 +1,7 @@
+var app = {};
+
 (function () {
   'use strict';
-
-  var app = {
-    TMP: {}
-  };
 
   require.config({
     paths: {
@@ -22,7 +20,8 @@
   });
 
   require(['views/AppView'], function (AppView) {
-    var appview = new AppView();
+    var appview = new AppView({ el: '.app' });
+    appview.render();
   });
 
 }());

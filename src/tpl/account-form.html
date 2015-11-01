@@ -1,0 +1,35 @@
+<section id="add-account">
+  <header class="header">
+    <div class="header-leftcontent"><a class="button -inline" data-action="change-page" href="account-list">Back</a></div>
+    <h1>{{title}}</h1>
+  </header>
+  <div class="page-content">
+    <form>
+      <p>
+        <input type="text" name="name" placeholder="Account name" value="{{account.name}}" required>
+      </p>
+      <p>
+        <input type="text" name="url" placeholder="CardDAV URL" value="{{account.url}}" required>
+      </p>
+      <p>
+        <input type="text" name="user" placeholder="Username" value="{{account.user}}" required>
+      </p>
+      <p>
+        <input type="password" name="password" placeholder="Password" value="{{account.password}}" required>
+      </p>
+      <p>
+        <label>
+          <input name="sync" type="checkbox" {{#account.sync}}checked{{/account.sync}}>
+          <span>Sync</span>
+        </label>
+      </p>
+      <p>
+        <button data-action="submit-accountform">Save</button>
+        {{#editAccount}}
+          <button data-action="remove-account">Remove</button>
+        {{/editAccount}}
+      </p>
+    </form>
+    <p data-target="getbooks-status"></p>
+  </div>
+</section>
