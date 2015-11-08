@@ -24,8 +24,6 @@ define([
       render: function render() {
         var account = AccountStorage.get(this.accountId) || {};
 
-        account.sync = (this.formType === 'add' || account.sync === undefined) ? true : account.sync;
-
         this.$el.html(Mustache.render(accountFormTpl, {
           title: (this.formType === 'edit') ? 'Edit Account' : 'Add Account',
           editAccount: (this.formType === 'edit') ? true : false,
@@ -49,7 +47,6 @@ define([
         });
 
       	if (!error) {
-          accountData.sync = $form.find('[name="sync"]').is(':checked');
           if(this.accountId !== 0) accountData.id = this.accountId;
           this.accountData = accountData;
           $form.remove();
@@ -108,7 +105,7 @@ define([
 
       removeAccount: function removeAccount(ev){
         if(confirm('Are you sure you want to remove this account?') === true){
-        	AccountStorage.del(this.accountId);
+        	AccountStorage.delete(this.accountId);
           alert('Account Removed!');
           app.EventBus.trigger('app:changePage', {
             page: 'account-list'

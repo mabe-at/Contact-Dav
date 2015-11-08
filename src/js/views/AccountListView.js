@@ -50,7 +50,7 @@ define([
       removeAllAccounts: function removeAllAccounts(){
         if(confirm('Are you sure you want to remove all accounts?') === true){
           this.$el.find('[data-target="account-list"]').html('');
-          AccountStorage.delall();
+          AccountStorage.deleteAll();
         }
       }
   });

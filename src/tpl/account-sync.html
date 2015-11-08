@@ -3,23 +3,11 @@
     <div class="header-leftcontent"><a class="button -inline" data-action="change-page" href="index">Back</a></div>
     <h1>Sync Accounts</h1>
   </header>
-  <!--
-  <label for="sel-sync-interval">Sync interval</label>
-  <select id="sel-sync-interval">
-    <option value="0">None</option>
-    <option value="5">5 minutes</option>
-    <option value="15">15 minutes</option>
-    <option value="30">30 minutes</option>
-    <option value="60">1 hour</option>
-    <option value="120">2 hours</option>
-    <option value="3600">once a day</option>
-  </select>
-  -->
   <div class="page-content">
-    <label class="label pack-switch">
-      <input id="chk-del-contacts" type="checkbox">
+    <label>
+      <input name="clear-contacts" type="checkbox">
       <span>Wipe local contacts before sync</span>
     </label>
-    <a class="button" id="btn-sync" href="#">Sync Now</a>
+    <a class="button" data-action="sync" href="#">Sync Now</a>
   </div>
 </section>
