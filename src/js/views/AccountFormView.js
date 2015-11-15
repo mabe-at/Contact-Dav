@@ -2,10 +2,10 @@ define([
   'underscore',
   'backbone',
   'mustache',
-  'CardDAV',
+  'CardDavConnector',
   'AccountStorage',
   'text!tpl/account-form.html'
-], function (_, Backbone, Mustache, CardDAV, AccountStorage, accountFormTpl) {
+], function (_, Backbone, Mustache, CardDavConnector, AccountStorage, accountFormTpl) {
   'use strict';
 
   var AccountFormView = Backbone.View.extend({
@@ -64,28 +64,27 @@ define([
 
         $status.html('Searching for Adressbooks ...');
 
-        try {
-          // TODO switch from callback to return value
-          CardDAV.findAddressbooks(this.accountData, $.proxy(this.displayBooks, this));
-        }
-        catch(e) {
-          this.displayBooks(this.accountData, []);
-        }
+        CardDavConnector.getAddressbooks({ 0: this.accountData })
+          .then($.proxy(this.displayBooks, this))
+          .catch(function(error){
+            console.log(error);
+            $status.html('Verbindungsfehler!');
+          });
+
       },
 
-      displayBooks: function displayBooks(account, books) {
+      displayBooks: function displayBooks(books) {
         var $status = this.$el.find('[data-target="getbooks-status"]');
 
       	if (books.length > 0) {
           var content = books.length + ' ' + (books.length > 1 ? 'Adressbooks' : 'Adressbook') + ' found:<br><ul>';
 
           $.each(books, function(index, book){
-            content += '<li>'+book.displayname+'</li>';
+            content += '<li>'+book.displayName+'</li>';
     			});
 
           content += '</ul><button data-action="save-account">Save</button><button data-action="change-page" data-href="account-list">Cancel</button>';
           $status.html(content);
-          this.accountData.books = books;
       	}
       	else {
       		$status.html('No Adressbooks Found!');
