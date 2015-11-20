@@ -30,10 +30,13 @@ define(['underscore', 'promise', 'dav', 'vcard'], function (_, Es6Promise, Dav, 
             accountPromises = _.map(connections, Dav.createAccount);
 
         Promise.all(accountPromises).then(function(responses){
+          console.log(responses);
           var addressbooks = [];
           _.each(responses, function(response){
             _.each(response.addressBooks, function(addressBook){
-              addressbooks.push(addressBook);
+              if(_.indexOf(addressBook.resourcetype, 'addressbook') !== -1){
+                addressbooks.push(addressBook);
+              }
             });
           });
           resolve(addressbooks);
