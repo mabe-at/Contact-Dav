@@ -1,11 +1,12 @@
 define([
-  'underscore',
+  'jquery',
+  'lodash',
   'backbone',
   'mustache',
   'CardDavConnector',
   'AccountStorage',
   'text!tpl/account-form.html'
-], function (_, Backbone, Mustache, CardDavConnector, AccountStorage, accountFormTpl) {
+], function ($, _, Backbone, Mustache, CardDavConnector, AccountStorage, accountFormTpl) {
   'use strict';
 
   var AccountFormView = Backbone.View.extend({
@@ -67,7 +68,6 @@ define([
         CardDavConnector.getAddressbooks({ 0: this.accountData })
           .then($.proxy(this.displayBooks, this))
           .catch(function(error){
-            console.log(error);
             $status.html('Verbindungsfehler!');
           });
 

@@ -1,5 +1,6 @@
 define([
-  'underscore',
+  'jquery',
+  'lodash',
   'backbone',
   'mustache',
   'views/IndexView',
@@ -8,6 +9,7 @@ define([
   'views/AboutView',
   'views/AccountFormView'
 ], function (
+  $,
   _,
   Backbone,
   Mustache,

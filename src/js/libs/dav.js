@@ -1,64 +1,8 @@
-// edited - do not update
-/**
- * Polyfill from developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/find
- */
-if (!Array.prototype.find) {
-  Array.prototype.find = function(predicate) {
-    if (this == null) {
-      throw new TypeError('Array.prototype.find called on null or undefined');
-    }
-    if (typeof predicate !== 'function') {
-      throw new TypeError('predicate must be a function');
-    }
-    var list = Object(this);
-    var length = list.length >>> 0;
-    var thisArg = arguments[1];
-    var value;
+// v1.7.8, latest commit: 14. Sep 2015, check NOTES before updating
+// https://github.com/gaye/dav/blob/master/dav.js
 
-    for (var i = 0; i < length; i++) {
-      value = list[i];
-      if (predicate.call(thisArg, value, i, list)) {
-        return value;
-      }
-    }
-    return undefined;
-  };
-}
-/**
- * Polyfill from developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
- */
-if (!Object.assign) {
-  Object.defineProperty(Object, 'assign', {
-    enumerable: false,
-    configurable: true,
-    writable: true,
-    value: function(target, firstSource) {
-      'use strict';
-      if (target === undefined || target === null) {
-        throw new TypeError('Cannot convert first argument to object');
-      }
+// NOTE: Polyfills for Array.prototype.find & Object.assign moved to js/polyfills/polyfills.js
 
-      var to = Object(target);
-      for (var i = 1; i < arguments.length; i++) {
-        var nextSource = arguments[i];
-        if (nextSource === undefined || nextSource === null) {
-          continue;
-        }
-        nextSource = Object(nextSource);
-
-        var keysArray = Object.keys(Object(nextSource));
-        for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-          var nextKey = keysArray[nextIndex];
-          var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-          if (desc !== undefined && desc.enumerable) {
-            to[nextKey] = nextSource[nextKey];
-          }
-        }
-      }
-      return to;
-    }
-  });
-}
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -68,7 +12,6 @@ if (!Object.assign) {
  * additional grant of patent rights can be found in the PATENTS file in
  * the same directory.
  */
-
 !(function(global) {
   "use strict";
 
@@ -2935,6 +2878,7 @@ var Basic = (function (_Transport) {
               transformRequest = request.transformRequest;
               transformResponse = request.transformResponse;
               onerror = request.onerror;
+              // NOTE: XMLHttpRequest parameters for firefox os added
               xhr = new _xmlhttprequest2['default']({
                 mozAnon: true,
                 mozSystem: true
@@ -3018,10 +2962,12 @@ var OAuth2 = (function (_Transport2) {
             case 9:
               token = context$3$0.sent;
 
+              // NOTE: XMLHttpRequest parameters for firefox os added
               xhr = new _xmlhttprequest2['default']({
                 mozAnon: true,
                 mozSystem: true
               });
+
               if (sandbox) sandbox.add(xhr);
               xhr.open(request.method, url, true /* async */);
               xhr.setRequestHeader('Authorization', 'Bearer ' + token);
@@ -3092,6 +3038,8 @@ var getAccessToken = _co2['default'].wrap(regeneratorRuntime.mark(function calle
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
         sandbox = options.sandbox;
+
+        // NOTE: XMLHttpRequest parameters for firefox os added
         xhr = new _xmlhttprequest2['default']({
           mozAnon: true,
           mozSystem: true
@@ -3134,6 +3082,8 @@ var refreshAccessToken = _co2['default'].wrap(regeneratorRuntime.mark(function c
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
         sandbox = options.sandbox;
+
+        // NOTE: XMLHttpRequest parameters for firefox os added
         xhr = new _xmlhttprequest2['default']({
           mozAnon: true,
           mozSystem: true

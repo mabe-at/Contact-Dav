@@ -1,3 +1,6 @@
+// v3.0.2, latest commit: 11. Aug 2015, check NOTES before updating
+// https://github.com/jakearchibald/es6-promise/blob/master/dist/es6-promise.js
+
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
@@ -959,7 +962,8 @@
     } else if (typeof module !== 'undefined' && module['exports']) {
       module['exports'] = lib$es6$promise$umd$$ES6Promise;
     } else if (typeof this !== 'undefined') {
-      this['ES6Promise'] = lib$es6$promise$umd$$ES6Promise;
+      // NOTE: disable global export
+      //this['ES6Promise'] = lib$es6$promise$umd$$ES6Promise;
     }
 
     lib$es6$promise$polyfill$$default();

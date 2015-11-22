@@ -1,11 +1,12 @@
 define([
-  'underscore',
+  'jquery',
+  'lodash',
   'backbone',
   'mustache',
-  'CardDAV',
+  'CardDavConnector',
   'AccountStorage',
   'text!tpl/account-sync.html'
-], function (_, Backbone, Mustache, CardDAV, AccountStorage, accountSyncTpl) {
+], function ($, _, Backbone, Mustache, CardDavConnector, AccountStorage, accountSyncTpl) {
   'use strict';
 
   var AccountSyncView = Backbone.View.extend({
@@ -30,7 +31,8 @@ define([
         $.each(accounts, $.proxy(function(index, account){
           if (account.books.length > 0) {
             $.each(account.books, $.proxy(function(index, book){
-
+console.log(book);
+/*
               CardDAV.getAllContacts(account, book, $.proxy(function(account, book, contacts){
                 if (contacts.length > 0) {
 
@@ -59,7 +61,7 @@ define([
               		syncEnded();
               	}
               }, this));
-
+*/
             }, this));
         	}
         }, this));

@@ -1,3 +1,4 @@
+// https://github.com/requirejs/text/blob/master/text.js
 /**
  * @license RequireJS text 2.0.14 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.

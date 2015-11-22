@@ -1,5 +1,5 @@
 define([
-  'underscore',
+  'lodash',
   'backbone',
   'mustache',
   'text!tpl/index.html'

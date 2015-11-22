@@ -1,10 +1,11 @@
 define([
-  'underscore',
+  'jquery',
+  'lodash',
   'backbone',
   'mustache',
   'AccountStorage',
   'text!tpl/account-list.html'
-], function (_, Backbone, Mustache, AccountStorage, accountListTpl) {
+], function ($, _, Backbone, Mustache, AccountStorage, accountListTpl) {
   'use strict';
 
   var AccountListView = Backbone.View.extend({

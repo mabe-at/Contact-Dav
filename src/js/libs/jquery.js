@@ -1,3 +1,6 @@
+// check NOTES before updating
+// https://jquery.com/download/
+
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -31,7 +34,9 @@
 				return factory( w );
 			};
 	} else {
-		factory( global );
+		// NOTE: disable global export
+		// factory( global );
+		factory( global, true );
 	}
 
 // Pass this if window is not defined yet

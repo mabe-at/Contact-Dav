@@ -1,10 +1,7 @@
-// edited - do not update
+// code added - do not update
 /**
  * vCardJS - a vCard 4.0 implementation in JavaScript
- *
  * (c) 2012 - Niklas Cathor
- *
- * Latest source: https://github.com/nilclass/vcardjs
  **/
 
 define(function() {
@@ -811,8 +808,12 @@ var VCF;
     };
 
 })();
+
+  return VCF;
+  /*
   return {
       VCF: VCF,
       VCard: VCard
   };
+  */
 });
