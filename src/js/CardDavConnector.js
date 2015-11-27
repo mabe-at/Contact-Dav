@@ -30,7 +30,9 @@ define(['lodash', 'dav', 'vcard'], function (_, Dav, Vcard){
           var addressbooks = [];
           _.each(responses, function(response){
             _.each(response.addressBooks, function(addressBook){
-              if(_.includes(addressBook.resourcetype, 'addressbook') === true){
+              var accountPath = response.server.split('//')[1],
+                  isAddressBook = _.includes(addressBook.resourcetype, 'addressbook');
+              if(isAddressBook === true && addressBook.url.search(accountPath) !== -1){
                 addressbooks.push(addressBook);
               }
             });
