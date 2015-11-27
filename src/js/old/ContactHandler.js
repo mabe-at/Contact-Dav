@@ -1,5 +1,3 @@
-'use strict';
-
 /**
 	 * MozContact.additionalName 	string array
 	 * MozContact.adr				AddressField object array
@@ -33,7 +31,7 @@
 	 * MozContact.nickname			string array
 	 * MozContact.note				string array
 	 * MozContact.org				string array
-	 * MozContact.photo				blob array 
+	 * MozContact.photo				blob array
 	 * MozContact.published			date ro
 	 * MozContact.sex				string
 	 * MozContact.tel				TelField object array
@@ -43,7 +41,7 @@
 	 * 									carrier			string (?)
 	 * MozContact.updated			date ro
 	 */
-	 
+
 	 /**
 	  * vCard
 	  * ADR		value
@@ -57,7 +55,7 @@
 	  */
 
 var ContactHandler = (function ContactHandler() {
-	
+
 	function mergeContact(vcard, person) {
 		if (vcard.hasOwnProperty('fn')) {
 			person.name = [vcard.fn];
@@ -182,7 +180,7 @@ var ContactHandler = (function ContactHandler() {
 		}
 		return person;
 	}
-	
+
 	function getContact(cid, cb) {
 		if (cid == undefined) {
 			return cb(null, new mozContact());
@@ -204,11 +202,11 @@ var ContactHandler = (function ContactHandler() {
 		  return cb(this.error, new mozContact());
 		}
 	}
-	
+
 	function saveContact(vcard, cardid, cid) {
 		getContact(cid, function(err, person) {
 			if (err == null) {
-				person = mergeContact(vcard, person);				
+				person = mergeContact(vcard, person);
 				// save the contact
 				var saving = navigator.mozContacts.save(person);
 				saving.onsuccess = function() {
@@ -221,24 +219,24 @@ var ContactHandler = (function ContactHandler() {
 				  console.error(err.name + " " + person.name + " " + person.id);
 				};
 			}
-			
+
 		});
 	}
-	
+
 	function isString(v) {
 		if (v != undefined && v['constructor'] === String) {
-			return true;	
+			return true;
 		}
 		return false;
 	}
-	
+
 	function isArray(v) {
 		if (v != undefined && v['constructor'] === Array) {
-			return true;	
+			return true;
 		}
 		return false;
 	}
-	
+
 	return {
 		setContact: function setContact(vcard, book) {
 			var cardid;

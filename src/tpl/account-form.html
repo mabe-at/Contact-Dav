@@ -18,6 +18,12 @@
         <input type="password" name="password" placeholder="Password" value="{{account.password}}" required>
       </p>
       <p>
+        <label>
+          <input name="sync" type="checkbox" {{#account.sync}}checked{{/account.sync}}>
+          <span>Sync</span>
+        </label>
+      </p>
+      <p>
         <button data-action="submit-accountform">Save</button>
         {{#editAccount}}
           <button data-action="remove-account">Remove</button>

@@ -13,6 +13,7 @@ var app = {};
       mustache: 'libs/mustache',
       dav: 'libs/dav',
       vcard: 'libs/vcard',
+      md5: 'libs/md5',
 
       tpl: '../tpl'
     }

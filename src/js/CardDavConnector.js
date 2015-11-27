@@ -55,6 +55,8 @@ define(['lodash', 'dav', 'vcard'], function (_, Dav, Vcard){
               addressBook.objects.forEach(function(object){
                 var contact = object.data.props.addressData;
                 Vcard.parse(contact, function(vcard){
+                  // TODO remove objectUrl if not needed in ContactHandler
+                  vcard.objectUrl = object.url;
                   contacts.push(vcard);
                 });
               });

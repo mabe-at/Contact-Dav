@@ -25,6 +25,8 @@ define([
       render: function render() {
         var account = AccountStorage.get(this.accountId) || {};
 
+        account.sync = (this.formType === 'add' || account.sync === undefined) ? true : account.sync;
+
         this.$el.html(Mustache.render(accountFormTpl, {
           title: (this.formType === 'edit') ? 'Edit Account' : 'Add Account',
           editAccount: (this.formType === 'edit') ? true : false,
@@ -48,10 +50,16 @@ define([
         });
 
       	if (!error) {
+          accountData.sync = $form.find('[name="sync"]').is(':checked');
           if(this.accountId !== 0) accountData.id = this.accountId;
           this.accountData = accountData;
           $form.remove();
-          this.getBooks();
+
+          if(this.accountData.sync === true){
+            this.getBooks();
+          } else {
+            this.saveAccount();
+          }
       	}
       	else {
       		alert('Please fill out all fields!');
@@ -99,7 +107,7 @@ define([
         app.EventBus.trigger('app:changePage', {
           page: 'account-list'
         });
-        ev.preventDefault();
+        if(ev !== undefined) ev.preventDefault();
       },
 
       removeAccount: function removeAccount(ev){
